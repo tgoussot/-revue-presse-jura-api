@@ -1,4 +1,4 @@
-const scraperService = require('../services/scraper');
+const scraperService = require('../services/scraperLeProgres');
 
 /**
  * Recherche des articles selon les critères fournis

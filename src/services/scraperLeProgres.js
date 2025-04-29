@@ -286,7 +286,7 @@ exports.searchArticles = async ({ keyword, startDate, endDate }) => {
     }
     
     // Si plus aucun article n'est trouvé sur une page, arrêter la recherche
-    if (page > 1 && totalArticlesFound === 0) {
+    if (page > 5 && totalArticlesFound === 0) {
       console.log("Aucun article trouvé après plusieurs pages, arrêt de la recherche.");
       break;
     }
