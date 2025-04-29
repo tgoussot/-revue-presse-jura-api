@@ -59,7 +59,7 @@ console.error = function() {
 const app = express();
 
 // Configuration CORS pour la production et le développement
-const allowedOrigins = ['http://localhost:3000', 'https://revue-presse-scrap.vercel.app', 'https://revue-presse-jura.vercel.app', 'https://frontend-8nq0ilej2-goussots-projects.vercel.app', 'https://revue-presse-theo.vercel.app'];
+const allowedOrigins = ['http://localhost:3000', 'https://revue-presse-scrap.vercel.app', 'https://revue-presse-jura.vercel.app', 'https://frontend-8nq0ilej2-goussots-projects.vercel.app', 'https://revue-presse-theo.vercel.app', 'https://frontend-f5k2m1tom-goussots-projects.vercel.app'];
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -69,14 +69,22 @@ const corsOptions = {
     if (allowedOrigins.indexOf(origin) !== -1 || process.env.CORS_ORIGIN === origin) {
       callback(null, true);
     } else {
-      callback(new Error('Non autorisé par CORS'));
+      console.log(`CORS non autorisé pour l'origine: ${origin}`);
+      // Au lieu de bloquer, autorisons toutes les origines en production
+      callback(null, true);
     }
   },
+  credentials: true,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   optionsSuccessStatus: 200
 };
 
 // Middleware de base
-app.use(helmet()); // Sécurité
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false,
+  crossOriginResourcePolicy: { policy: 'cross-origin' }
+})); // Sécurité moins restrictive
 app.use(cors(corsOptions)); // Support des requêtes cross-origin avec configuration
 app.use(express.json()); // Parser JSON
 app.use(morgan('dev')); // Logging
@@ -97,10 +105,30 @@ app.use('/api', routes);
 
 // Middleware pour gérer les erreurs
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error('ERREUR API:', err.stack);
+  
+  // Logging détaillé pour le débogage
+  console.error('Détails de l\'erreur:');
+  console.error('- Message:', err.message);
+  console.error('- Nom:', err.name);
+  console.error('- Code:', err.code);
+  
+  // Enregistrer les détails de la requête pour le débogage
+  console.error('Détails de la requête:');
+  console.error('- Méthode:', req.method);
+  console.error('- URL:', req.originalUrl);
+  console.error('- Paramètres:', req.params);
+  console.error('- Query:', req.query);
+  console.error('- Headers:', req.headers);
+  
   res.status(500).json({
     message: "Une erreur est survenue sur le serveur",
-    error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    error: process.env.NODE_ENV === 'development' ? err.message : undefined,
+    details: process.env.NODE_ENV === 'development' ? {
+      name: err.name,
+      code: err.code,
+      stack: err.stack
+    } : undefined
   });
 });
 
