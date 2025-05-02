@@ -127,7 +127,8 @@ const isArticleRelatedToAlsace = async (metadata) => {
   const alsaceSpecificHeadlines = [
     "Alsace", "Centre-Alsace", "Nord Alsace", "Sud Alsace", 
     "Bas-Rhin", "Haut-Rhin", "Région", "Régional", "Grand Est",
-    "67", "68", "Eurométropole", "Strasbourgeois", "Mulhousien", "Colmarien"
+    "67", "68", "Eurométropole", "Strasbourgeois", "Mulhousien", "Colmarien",
+    "Région de Guebwiller", "Markstein", "Politique"
   ];
 
   // Vérifier si le headline est exactement l'une des valeurs spécifiques à l'Alsace
