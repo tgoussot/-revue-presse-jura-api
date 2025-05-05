@@ -4,6 +4,7 @@ const articlesEstRepublicainRoutes = require('./articlesEstRepublicain');
 const articlesAlsaceRoutes = require('./articlesAlsace');
 const communesRoutes = require('./communes');
 const communesMultiDeptRoutes = require('./communesMultiDept');
+const uipathExportRoutes = require('./uipathExport');
 
 const router = express.Router();
 
@@ -22,5 +23,6 @@ router.use('/articles/estrepublicain', articlesEstRepublicainRoutes);
 router.use('/articles/alsace', articlesAlsaceRoutes);
 router.use('/communes/jura', communesRoutes);
 router.use('/communes', communesMultiDeptRoutes);
+router.use('/uipath', uipathExportRoutes);
 
 module.exports = router; 
