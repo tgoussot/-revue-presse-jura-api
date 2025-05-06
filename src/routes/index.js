@@ -2,8 +2,8 @@ const express = require('express');
 const articlesRoutes = require('./articles');
 const articlesEstRepublicainRoutes = require('./articlesEstRepublicain');
 const articlesAlsaceRoutes = require('./articlesAlsace');
-const communesRoutes = require('./communes');
-const communesMultiDeptRoutes = require('./communesMultiDept');
+const articlesUnifiedRoutes = require('./articlesUnified');
+const communesUnifiedRoutes = require('./communesUnified');
 const uipathExportRoutes = require('./uipathExport');
 
 const router = express.Router();
@@ -21,8 +21,8 @@ router.get('/', (req, res) => {
 router.use('/articles/progres', articlesRoutes);
 router.use('/articles/estrepublicain', articlesEstRepublicainRoutes);
 router.use('/articles/alsace', articlesAlsaceRoutes);
-router.use('/communes/jura', communesRoutes);
-router.use('/communes', communesMultiDeptRoutes);
+router.use('/articles/all', articlesUnifiedRoutes);
+router.use('/communes-unified', communesUnifiedRoutes);
 router.use('/uipath', uipathExportRoutes);
 
 module.exports = router; 
